@@ -25,7 +25,7 @@ def handler(event, context):
     print(f'parsed telegram order: {telegramOrder}')
     foodPicassoMenu = picassoClient.load_menu(menuId)
 
-    foodPicassoOrder = build_food_picasso_order_from_telegram_order(
+    foodPicassoOrder = _build_food_picasso_order_from_telegram_order(
         telegramOrder, foodPicassoMenu
     )
 
@@ -37,7 +37,10 @@ def handler(event, context):
     }
 
 
-def build_food_picasso_order_from_telegram_order(
+def _is_new_order(telegramOrder: dict) -> bool:
+
+
+def _build_food_picasso_order_from_telegram_order(
     telegramOrder: TelegramOrder, foodPicassoMenu: FoodPicassoMenu
 ) -> FoodPicassoOrder:
     id = f"{telegramOrder.id}_{str(uuid.uuid4())}_tl"
