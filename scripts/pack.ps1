@@ -1,0 +1,1 @@
+Compress-Archive -Path ..\import_order_to_picasso_lambda.py, ..\telegram_food.py, ..\picasso_food.py, ..\requirements.txt -destinationPath ..\distrib\CreateOrderLambda.zip -Force
