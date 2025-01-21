@@ -1,10 +1,13 @@
+import base64
 import json
 import os
 import time
 import uuid
+import urllib.parse
+import urllib
 
 from picasso_food import FoodPicassoMenu, FoodPicassoOrder, FoodPicassoOrderClient, FoodPicassoOrderDeliveryType, FoodPicassoOrderPosition, PicassoClient
-from telegram_food import TelegramDeliveryType, TelegramOrder, parse_telegram_order_from_base64_url
+from telegram_food import TelegramDeliveryType, TelegramOrder, parse_telegram_order_from_base64_url, parse_telegram_order_from_url_dict
 
 
 def handler(event, context):
@@ -21,7 +24,15 @@ def handler(event, context):
         token=token,
         companyId=companyId,
     )
-    telegramOrder = parse_telegram_order_from_base64_url(body)
+    decodedRequest = base64.b64decode(body).decode('utf-8')
+    parsedDict = urllib.parse.parse_qs(decodedRequest)
+
+    if not _is_new_order(parsedDict):
+        print('not new order event')
+        return
+
+    telegramOrder = parse_telegram_order_from_url_dict(parsedDict)
+
     print(f'parsed telegram order: {telegramOrder}')
     foodPicassoMenu = picassoClient.load_menu(menuId)
 
@@ -38,6 +49,7 @@ def handler(event, context):
 
 
 def _is_new_order(telegramOrder: dict) -> bool:
+    return telegramOrder['event'][0].lower() == 'new_order'
 
 
 def _build_food_picasso_order_from_telegram_order(
