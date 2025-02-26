@@ -24,15 +24,25 @@ class FoodPicassoOrderDeliveryType(enum.Enum):
 
 
 @dataclass
+class Address:
+    country: str = ''
+    city: str = ''
+    house: str = ''
+    street: str = ''
+    entrance: str = ''
+    floor: str = ''
+    apartment: str = ''
+
+
+@dataclass
 class FoodPicassoOrder:
     uid: str
     erpId: int
     date: int
     client: FoodPicassoOrderClient
-    fee: int
     discount: int
     dishes: list[FoodPicassoOrderPosition]
-    address: str
+    address: Address
     deliveryType: FoodPicassoOrderDeliveryType
 
 
@@ -66,12 +76,12 @@ class PicassoClient:
                 "date": order.date,
                 "client": {"phone": order.client.phone, "name": order.client.name},
                 "address": {
-                    "city": "FromTelegramApp",
-                    "street": "None",
-                    "house": order.address,
-                    "apartment": "None",
-                    "entrance": "None",
-                    "floor": "None",
+                    "city": order.address.city,
+                    "street": order.address.street,
+                    "house": order.address.house,
+                    "apartment": order.address.apartment,
+                    "entrance": order.address.entrance,
+                    "floor": order.address.floor,
                 },
                 "deliveryMethod": order.deliveryType.name,
                 "paymentType": 'cash',
@@ -79,7 +89,6 @@ class PicassoClient:
                     {"id": position.id, "count": position.count}
                     for position in order.dishes
                 ],
-                "fee": order.fee,
                 "discount": order.discount,
             }
         }
