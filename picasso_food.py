@@ -89,6 +89,7 @@ class PicassoClient:
                     {"id": position.id, "count": position.count}
                     for position in order.dishes
                 ],
+                "fee": 0,
                 "discount": order.discount,
             }
         }
