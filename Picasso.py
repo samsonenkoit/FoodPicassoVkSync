@@ -2,7 +2,7 @@ import os
 import uuid
 import time
 
-from import_order_to_picasso_lambda import build_food_picasso_order_from_telegram_order
+from import_order_to_picasso_lambda import _build_food_picasso_order_from_telegram_order
 from picasso_food import (
     FoodPicassoMenu,
     FoodPicassoOrder,
@@ -171,8 +171,9 @@ menu = picassoClient.load_menu(2)
 telegramOrder = parse_telegram_order_from_url_dict(appOrderUrlDict)
 foodPicassoMenu = picassoClient.load_menu(FOOD_PICASSO_MENU_ID)
 
-foodPicassoOrder = build_food_picasso_order_from_telegram_order(
+foodPicassoOrder = _build_food_picasso_order_from_telegram_order(
     telegramOrder, foodPicassoMenu
 )
 
-picassoClient.add_order(foodPicassoOrder)
+g = picassoClient.add_order(foodPicassoOrder)
+t = 1

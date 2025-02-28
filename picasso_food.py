@@ -44,6 +44,7 @@ class FoodPicassoOrder:
     dishes: list[FoodPicassoOrderPosition]
     address: Address
     deliveryType: FoodPicassoOrderDeliveryType
+    fee: float
 
 
 @dataclass
@@ -89,7 +90,7 @@ class PicassoClient:
                     {"id": position.id, "count": position.count}
                     for position in order.dishes
                 ],
-                "fee": 0,
+                "fee": order.fee,
                 "discount": order.discount,
             }
         }

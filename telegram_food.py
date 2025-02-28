@@ -25,6 +25,7 @@ class TelegramOrder:
     phone: str
     address: str
     deliveryType: TelegramDeliveryType
+    fee: float
 
 
 def parse_telegram_order_from_base64_url(base64Url: str) -> TelegramOrder:
@@ -50,4 +51,6 @@ def parse_telegram_order_from_url_dict(telegramUrlOrderDict: dict) -> TelegramOr
                          id=str(telegramUrlOrderDict['data[id]']),
                          address=telegramUrlOrderDict.get(
                              'data[address][addres]', ['None'])[0],
-                         deliveryType=TelegramDeliveryType[telegramUrlOrderDict['data[receipt][global]'][0]])
+                         deliveryType=TelegramDeliveryType[telegramUrlOrderDict['data[receipt][global]'][0]],
+                         fee=float(telegramUrlOrderDict.get(
+                             'data[price_delivery]', [0])[0]))
