@@ -96,6 +96,7 @@ def _build_food_picasso_order_from_telegram_order(
         address=address,
         discount=0,
         fee=telegramOrder.fee,
+        pickupAddress='Омск, улица 10 лет Октября, 109',
         dishes=[
             FoodPicassoOrderPosition(
                 id=picassoNameToPositionMapper[p.name].id, count=p.quantity

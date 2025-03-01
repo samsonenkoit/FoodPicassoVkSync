@@ -45,6 +45,7 @@ class FoodPicassoOrder:
     address: Address
     deliveryType: FoodPicassoOrderDeliveryType
     fee: float
+    pickupAddress: str
 
 
 @dataclass
