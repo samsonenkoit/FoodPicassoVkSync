@@ -71,20 +71,28 @@ class PicassoClient:
         self.url = url
 
     def add_order(self, order: FoodPicassoOrder) -> dict:
+        address = {}
+        if order.deliveryType == FoodPicassoOrderDeliveryType.courier:
+            address = {
+                "city": order.address.city,
+                "street": order.address.street,
+                "house": order.address.house,
+                "apartment": order.address.apartment,
+                "entrance": order.address.entrance,
+                "floor": order.address.floor,
+            }
+        elif order.deliveryType == FoodPicassoOrderDeliveryType.pickup:
+            address = {
+                "full": order.pickupAddress
+            }
+
         body = {
             "order": {
                 "erpId": order.erpId,
                 "orderUid": order.uid,
                 "date": order.date,
                 "client": {"phone": order.client.phone, "name": order.client.name},
-                "address": {
-                    "city": order.address.city,
-                    "street": order.address.street,
-                    "house": order.address.house,
-                    "apartment": order.address.apartment,
-                    "entrance": order.address.entrance,
-                    "floor": order.address.floor,
-                },
+                "address": address,
                 "deliveryMethod": order.deliveryType.name,
                 "paymentType": 'cash',
                 "dishes": [
